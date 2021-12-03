@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: httpd-test
+  namespace: raphael-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: httpd-test
+  template:
+    metadata:
+      labels:
+        app: httpd-test
+    spec:
+      containers:
+        - name: httpd-test
+          image: raphael9292/httpd-test
+#          image: httpd:2.4.51-alpine3.15
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "64Mi"
+            limits:
+              cpu: "100m"
+              memory: "128Mi"
+          ports:
+            - name: http
+              containerPort: 80
+#          volumeMounts:
+#            - mountPath: /etc/nginx/nginx.conf
+#              name: config-volume
+#              subPath: nginx.conf
+#              readOnly: true
+#            - mountPath: /etc/nginx/conf.d
+#              name: conf-d
+#              readOnly: true
+#      volumes:
+#        - name: config-volume
+#          configMap:
+#            name: service-check-nginx-config
+#        - name: conf-d
+#          projected:
+#            sources:
+#              - configMap:
+#                  name: service-check-nginx-config
+#                  items:
+#                    - key: default.conf
+#                      path: default.conf

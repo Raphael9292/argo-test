@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: httpd-test
+  namespace: raphael-test
+  labels:
+    app: httpd-test
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    external-dns.alpha.kubernetes.io/hostname: raphael-apache.officetest.kurlycorp.kr
+spec:
+  rules:
+    - http:
+        paths:
+          - backend:
+              service:
+                name: httpd-test
+                port:
+                  number: 80
+            path: /
+            pathType: Prefix
